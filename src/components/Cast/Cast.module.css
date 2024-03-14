@@ -1,0 +1,22 @@
+.castWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.castCard {
+  list-style: none;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  background-color: aliceblue;
+  max-width: 250px;
+}
+
+.castImage {
+  width: 100%;
+}
+
+.castName {
+  font-weight: bold;
+}
