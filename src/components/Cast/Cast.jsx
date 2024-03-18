@@ -3,6 +3,7 @@ import styles from './Cast.module.css';
 import defaultImage from '../../images/no-image.jpg';
 
 const Cast = ({ cast }) => {
+  console.log(cast);
   if (!cast || !Array.isArray(cast)) {
     return <div>No cast information available</div>;
   }

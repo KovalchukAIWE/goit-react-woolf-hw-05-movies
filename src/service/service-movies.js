@@ -15,6 +15,18 @@ export const getAllMovies = async () => {
   }
 };
 
+export const getSearchMovies = async query => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error('Error searching movies:', error);
+    throw new Error('Failed to search movies');
+  }
+};
+
 export const getSingleMovieApi = async id => {
   try {
     const response = await axios.get(
@@ -35,7 +47,7 @@ export const getMovieCast = async id => {
     return response.data;
   } catch (error) {
     console.error('Error fetching movie credits:', error);
-    throw new Error('Failed to fetch movie credits');
+    throw new Error('Failed to fetch movie casts');
   }
 };
 
