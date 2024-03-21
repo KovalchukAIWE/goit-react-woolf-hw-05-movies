@@ -1,55 +1,46 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Loader from 'components/Loader/Loader';
 import { getSearchMovies } from '../../service/service-movies';
+import SearhForm from 'components/SearchForm/SearchForm';
+import MoviesList from 'components/MoviesList/MoviesList';
 
-function MoviesPage() {
-  const [query, setQuery] = useState('');
-  const [, setSearchParams] = useSearchParams();
-  const [searchResults, setSearchResults] = useState([]);
-  const [, setLoading] = useState(false);
+const MoviesPage = () => {
+  const [searchMovies, setSearchMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errorText, setErrorText] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const movieTitle = searchParams.get('query') || '';
 
-  const navigate = useNavigate();
+  const updateQueryString = query => {
+    const nextParams = query !== '' && { query };
+    setSearchParams(nextParams);
+  };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    try {
-      if (query.trim() !== '') {
+  useEffect(() => {
+    const search = async () => {
+      try {
         setLoading(true);
-        const results = await getSearchMovies(query);
-        setSearchResults(results);
-        setSearchParams({ search: query });
+        const movies = await getSearchMovies(movieTitle);
+        setSearchMovies(movies);
+        setErrorText(movies.length === 0);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error searching movies:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleMovieClick = movieId => {
-    navigate(`/movies/${movieId}`);
-  };
+    };
+    search();
+  }, [movieTitle]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="search"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Search movies..."
-        />
-        <button type="submit">Search</button>
-      </form>
-      <ul>
-        {searchResults.map(movie => (
-          <li key={movie.id} onClick={() => handleMovieClick(movie.id)}>
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <main>
+      <SearhForm searchMovies={updateQueryString} />
+      {loading && <Loader />}
+      {errorText && <p>There are no movies. Please, try again...</p>}
+      {searchMovies.length > 0 && <MoviesList films={searchMovies} />}
+    </main>
   );
-}
+};
 
 export default MoviesPage;
