@@ -30,6 +30,7 @@
   cursor: pointer;
   transition: all 500ms;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .button:hover {

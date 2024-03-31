@@ -32,19 +32,15 @@ const Cast = () => {
       <ul className={styles.castWrapper}>
         {actors.map(({ id, profile_path, name, character }) => (
           <li key={id} className={styles.castCard}>
-            {profile_path ? (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${profile_path}`}
-                alt={name}
-                className={styles.castImage}
-              />
-            ) : (
-              <img
-                src={defaultImage}
-                alt="noimage"
-                className={styles.castImage}
-              />
-            )}
+            <img
+              src={
+                profile_path
+                  ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                  : defaultImage
+              }
+              alt={profile_path ? name : 'noimage'}
+              className={styles.castImage}
+            />
             <p className={styles.castName}>{name}</p>
             <p>Character: {character}</p>
           </li>

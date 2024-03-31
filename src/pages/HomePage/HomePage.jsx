@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { getAllMovies } from '../../service/service-movies';
-import styles from './HomePage.module.css';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchTrending() {
@@ -16,24 +14,10 @@ function Home() {
     fetchTrending();
   }, []);
 
-  const handleMovieClick = movieId => {
-    navigate(`/movies/${movieId}`);
-  };
-
   return (
     <div>
       <h2>Trending Movies</h2>
-      <ul>
-        {trendingMovies.map(movie => (
-          <li
-            className={styles.item}
-            key={movie.id}
-            onClick={() => handleMovieClick(movie.id)}
-          >
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <MoviesList films={trendingMovies} />
     </div>
   );
 }

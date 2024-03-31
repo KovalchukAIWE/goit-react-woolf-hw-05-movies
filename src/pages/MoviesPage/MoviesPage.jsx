@@ -38,7 +38,7 @@ const MoviesPage = () => {
       <SearhForm searchMovies={updateQueryString} />
       {loading && <Loader />}
       {errorText && <p>There are no movies. Please, try again...</p>}
-      {searchMovies.length > 0 && <MoviesList films={searchMovies} />}
+      {searchMovies.length > 0 && <MoviesList films={searchMovies} />} 
     </main>
   );
 };
